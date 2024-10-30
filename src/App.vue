@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <main class="page-main">
+    <router-view />
+  </main>
 </template>
 
 <style scoped>
+.page-main {
+  width: 100%;
+  max-width: 100%;
+  padding: 2% 10%;
+  display: flex;
+  align-items: center;
+  height: auto;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
