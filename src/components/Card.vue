@@ -67,12 +67,14 @@ const remove = (itemId:number) => {
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
+  color: var(--color-link-hover);
 }
 
 .wrapper h2 span {
     font-size: 18px;
     line-height: 1.5;
     margin-top: 5px;
+    color: var(--color-dark);
 }
 
 .wrapper p {

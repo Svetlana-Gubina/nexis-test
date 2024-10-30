@@ -119,15 +119,26 @@ const sortById =  (a:IItem, b:IItem) =>  {
   display: flex;
   align-items:center;
   justify-content: space-between;
+  background-color: hsl(13, 77%, 55%);
+  border-radius: 8px;
+}
+
+.controls-wrapper a {
+  color: #ffffff;
+}
+
+.controls-wrapper a:hover,
+.controls-wrapper a:focus{
+  color: var(--color-link);
 }
 
 .controls-wrapper a svg {
-  stroke: var(--color-link);
+  stroke: #ffffff;
 }
 
 .controls-wrapper a:hover svg,
 .controls-wrapper a:focus svg{
-  stroke: var(--color-link-hover);
+  stroke: var(--color-link);
   
 }
 

@@ -4,13 +4,13 @@
   --color-dark-light: #2f4056;
   --color-error: #ff7461;
 
-  --color-link: hsl(270, 100%, 50%);
-  --color-link-hover: hsl(300, 100%, 50%);
+  --color-link: hsl(3, 36%, 20%);
+  --color-link-hover: hsl(161, 35%, 38%);
 
-  --bg-button: hsl(220, 100%, 50%);
-  --bg-button-hover: hsl(200, 100%, 50%);
+  --bg-button: hsl(161, 35%, 38%);
+  --bg-button-hover: hsl(34, 75%, 80%);
 
-  --bg-card: hsl(100, 40%, 80%);
+  --bg-card: hsl(225, 3%, 85%);
 
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -25,7 +25,7 @@
 }
 
 a {
-  font-weight: 500;
+  font-weight: bold;
   color: var(--color-link);
   text-decoration: none;
 }
