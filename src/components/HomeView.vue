@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import type { Ref } from "vue";
+import { ref, computed } from "vue";
+import type { Ref, ComputedRef } from "vue";
 import type { IItem } from "../data/data";
 import Card from "./Card.vue";
 import ModalComponent from "./ModalComponent.vue";
@@ -12,6 +12,22 @@ const itemIdToRemove: Ref<number | null> = ref<number | null>(null);
 const store = useDataStore();
 const { setData } = useDataStore();
 const { data } = storeToRefs(store);
+const filterValue: Ref<string> = ref<string>("");
+
+const sortById = (a: IItem, b: IItem) => a.id - b.id;
+
+const dataList: ComputedRef<IItem[]> = computed<IItem[]>(() => {
+  if (filterValue) {
+    return data.value.sort(sortById).filter((i) => {
+      return filterValue.value
+        .toLowerCase()
+        .split(" ")
+        .every((v) => i.title.toLowerCase().includes(v));
+    });
+  } else {
+    return data.value.sort(sortById);
+  }
+});
 
 const openModal = () => {
   isModalOpened.value = true;
@@ -37,11 +53,6 @@ const cancel = () => {
   closeModal();
   itemIdToRemove.value = null;
 };
-
-const sortById = (a: IItem, b: IItem) => {
-  // console.log("a, b", a, b)
-  return a.id - b.id;
-};
 </script>
 
 <template>
@@ -64,8 +75,14 @@ const sortById = (a: IItem, b: IItem) => {
   <section class="main-content">
     <h1 class="sr-only">Список карточек</h1>
     <div class="cards">
+      <input
+        class="search-field"
+        type="search"
+        placeholder="Фильтр по заголовку"
+        v-model="filterValue"
+      />
       <ul v-if="data" class="card-list">
-        <li v-for="card in data.sort(sortById)" :key="card.id">
+        <li v-for="card in dataList" :key="card.id">
           <Card :info="card" @remove="remove" />
         </li>
       </ul>
@@ -101,6 +118,17 @@ const sortById = (a: IItem, b: IItem) => {
   flex-wrap: nowrap;
 }
 
+.search-field {
+  font-family: inherit;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+  max-width: 100%;
+  font-size: inherit;
+}
+
 .cards {
   max-width: 70%;
 }
@@ -117,7 +145,7 @@ const sortById = (a: IItem, b: IItem) => {
 
 .controls-wrapper {
   position: fixed;
-  top: 40px;
+  top: 25px;
   right: 10%;
   z-index: 1000;
   padding: 20px;
@@ -176,6 +204,16 @@ const sortById = (a: IItem, b: IItem) => {
   .controls-wrapper {
     right: 0;
   }
+
+  .search-field {
+    width: 60%;
+    max-width: 60%;
+  }
+
+  .controls-wrapper {
+    top: 80px;
+    right: 10%;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -198,6 +236,11 @@ const sortById = (a: IItem, b: IItem) => {
   .card-list {
     display: flex;
     flex-direction: column;
+  }
+
+  .search-field {
+    width: 100%;
+    max-width: 100%;
   }
 }
 </style>

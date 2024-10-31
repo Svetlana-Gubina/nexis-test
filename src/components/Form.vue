@@ -52,17 +52,12 @@ const errors = ref({
   published_from: "",
 });
 
-const minDate = new Date();
-
 const schema = Yup.object().shape({
   title: Yup.string()
     .required("Введите название")
     .max(50, "Заголовок не может быть длиннее 50 символов"),
   description: Yup.string().required("Введите описание"),
-  published_from: Yup.date()
-    .nullable()
-    .required("Введите дату")
-    .min(minDate, "Дата не может быть меньше текущей"),
+  published_from: Yup.date().nullable().required("Введите дату"),
 });
 
 const validate = (field: D) => {
