@@ -2,8 +2,6 @@
 import { ref, watch , onMounted} from 'vue';
 import type {Ref}from 'vue';
 import ErrorMessage from './ErrorMessage.vue';
-import {useDataStore} from '../store/store'
-import { storeToRefs } from "pinia";
 
 import type {IItem} from "../data/data";
 
@@ -17,9 +15,6 @@ interface IProps {
 }
 const props = defineProps<IProps>();
 const emit = defineEmits(["success"]);
-
-const store = useDataStore();  
-const { data }= storeToRefs(store);
 
 type Data = {
   title: string,
@@ -108,6 +103,10 @@ const onSubmitCreateForm = ():void => {
 onMounted(() => {
     updateFormData();
 })
+
+const handleDate = (e:any) => {
+    formData.value.published_from = e.target.value;
+}
 </script>
 
 <template>
@@ -134,19 +133,21 @@ onMounted(() => {
       </ErrorMessage>
 
       <label for="description">Описание</label>
-        <textarea id="description"
+        <!-- <textarea id="description"
           v-model="formData.description"
           placeholder="Введите описание"
           @blur="validate('description')"
           rows="5">
-        </textarea>
-
+        </textarea> -->
+        <v-md-editor id="description" v-model="formData.description" height="400px"></v-md-editor>
+       
       <ErrorMessage v-if="!!errors.description">
         {{ errors.description }}
       </ErrorMessage>
 
       <label for="published_from">Дата</label>
-        <input type="date" id="published_from" name="published_from" v-model="formData.published_from">
+        <input type="date" id="published_from" name="published_from" :value="new Date(formData.published_from).toISOString().split('T')[0]" 
+        @input="handleDate">
 
 
       <ErrorMessage v-if="!!errors.published_from">

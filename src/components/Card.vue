@@ -92,6 +92,7 @@ const remove = (itemId:number) => {
   align-items: center;
   background-color: transparent;
   color: inherit;
+  font-weight: bold;
 }
 
 .wrapper button:hover,
