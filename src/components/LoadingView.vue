@@ -16,6 +16,6 @@
   justify-content: center;
   align-items: center;
   color: #ffffff;
-  background-color: var( --color-dark-light);
+  background-color: var(--color-dark-light);
 }
 </style>

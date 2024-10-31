@@ -12,12 +12,10 @@
 
   --bg-card: hsl(225, 3%, 85%);
 
-
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -114,5 +112,3 @@ button:disabled {
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
 }
-
-

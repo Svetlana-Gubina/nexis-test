@@ -1,68 +1,71 @@
 <script setup lang="ts">
-import { ref, watch , onMounted} from 'vue';
-import type {Ref}from 'vue';
-import ErrorMessage from './ErrorMessage.vue';
+import { ref, watch, onMounted } from "vue";
+import type { Ref } from "vue";
+import ErrorMessage from "./ErrorMessage.vue";
 
-import type {IItem} from "../data/data";
+import type { IItem } from "../data/data";
 
 // to import everything from yup
 import * as Yup from "yup";
 
 interface IProps {
-    info: IItem;
-    title: string;
-    submitBtnText: string;
+  info: IItem;
+  title: string;
+  submitBtnText: string;
 }
 const props = defineProps<IProps>();
 const emit = defineEmits(["success"]);
 
 type Data = {
-  title: string,
-  description: string,
-  published_from: Date
-}
+  title: string;
+  description: string;
+  published_from: Date;
+};
 type D = keyof Data;
 
-const formData:Ref<Data> = ref<Data>({
-  title: '',
-  description: '',
-  published_from:  new Date()
+const formData: Ref<Data> = ref<Data>({
+  title: "",
+  description: "",
+  published_from: new Date(),
 });
 
-const updateFormData = ():void => {
-    if(props.info) {
-        formData.value = {
-            title: props.info.title,
-            description: props.info.description,
-            published_from: props.info.published_from,
-        }
-    }
-}
+const updateFormData = (): void => {
+  if (props.info) {
+    formData.value = {
+      title: props.info.title,
+      description: props.info.description,
+      published_from: props.info.published_from,
+    };
+  }
+};
 
 watch(
-    () => props.info,
-    () => {
-        updateFormData();
-    }
-)
+  () => props.info,
+  () => {
+    updateFormData();
+  },
+);
 
-const errors= ref({
-  title: '',
-  description: '',
-  published_from: ''
+const errors = ref({
+  title: "",
+  description: "",
+  published_from: "",
 });
 
 const minDate = new Date();
 
 const schema = Yup.object().shape({
   title: Yup.string()
-  .required("Введите название").max(50, 'Заголовок не может быть длиннее 50 символов'),
+    .required("Введите название")
+    .max(50, "Заголовок не может быть длиннее 50 символов"),
   description: Yup.string().required("Введите описание"),
-  published_from: Yup.date().nullable()
-    .required("Введите дату").min(minDate, 'Дата не может быть меньше текущей'),
+  published_from: Yup.date()
+    .nullable()
+    .required("Введите дату")
+    .min(minDate, "Дата не может быть меньше текущей"),
 });
 
-const validate = (field:D) => {
+const validate = (field: D) => {
   schema
     .validateAt(field, formData.value)
     .then(() => {
@@ -73,40 +76,39 @@ const validate = (field:D) => {
     });
 };
 
-
-const onSubmitCreateForm = ():void => {
- const newItem:IItem = {
-   id: props.info.id,
-   title: formData.value.title,
-   description: formData.value.description,
-   published: true,
-   published_from: formData.value.published_from
- }
+const onSubmitCreateForm = (): void => {
+  const newItem: IItem = {
+    id: props.info.id,
+    title: formData.value.title,
+    description: formData.value.description,
+    published: true,
+    published_from: formData.value.published_from,
+  };
   schema
     .validate(formData.value, { abortEarly: false })
     .then(() => {
       errors.value = {} as {
-        title: string,
-        description: string,
-        published_from: string
+        title: string;
+        description: string;
+        published_from: string;
       };
-      emit("success", newItem)
-      return Promise.resolve()
+      emit("success", newItem);
+      return Promise.resolve();
     })
     .catch((err) => {
-      err.inner.forEach((error:any) => {
+      err.inner.forEach((error: any) => {
         errors.value[error.path as D] = error.message;
       });
     });
-}
+};
 
 onMounted(() => {
-    updateFormData();
-})
+  updateFormData();
+});
 
-const handleDate = (e:any) => {
-    formData.value.published_from = e.target.value;
-}
+const handleDate = (e: any) => {
+  formData.value.published_from = e.target.value;
+};
 </script>
 
 <template>
@@ -133,22 +135,30 @@ const handleDate = (e:any) => {
       </ErrorMessage>
 
       <label for="description">Описание</label>
-        <!-- <textarea id="description"
+      <!-- <textarea id="description"
           v-model="formData.description"
           placeholder="Введите описание"
           @blur="validate('description')"
           rows="5">
         </textarea> -->
-        <v-md-editor id="description" v-model="formData.description" height="400px"></v-md-editor>
-       
+      <v-md-editor
+        id="description"
+        v-model="formData.description"
+        height="400px"
+      ></v-md-editor>
+
       <ErrorMessage v-if="!!errors.description">
         {{ errors.description }}
       </ErrorMessage>
 
       <label for="published_from">Дата</label>
-        <input type="date" id="published_from" name="published_from" :value="new Date(formData.published_from).toISOString().split('T')[0]" 
-        @input="handleDate">
-
+      <input
+        type="date"
+        id="published_from"
+        name="published_from"
+        :value="new Date(formData.published_from).toISOString().split('T')[0]"
+        @input="handleDate"
+      />
 
       <ErrorMessage v-if="!!errors.published_from">
         {{ errors.published_from }}
@@ -204,11 +214,10 @@ const handleDate = (e:any) => {
 }
 
 .form textarea {
-    resize: none;
+  resize: none;
 }
 
 .form input:last-of-type {
   margin-bottom: 40px;
 }
-
 </style>

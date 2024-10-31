@@ -1,12 +1,10 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    <div class="wrapper">
-        <h1>Страница не найдена</h1>
-        <router-link to="/">На главную</router-link>
-    </div>
+  <div class="wrapper">
+    <h1>Страница не найдена</h1>
+    <router-link to="/">На главную</router-link>
+  </div>
 </template>
 
 <style scoped>

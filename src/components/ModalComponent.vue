@@ -81,7 +81,6 @@ const target = ref(null);
   padding: 0;
 }
 
-
 @media (max-width: 768px) {
   .modal-container {
     width: calc(100% - 40px);
