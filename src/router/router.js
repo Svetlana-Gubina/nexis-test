@@ -25,6 +25,6 @@ const router = createRouter({
       component: () => import('../components/PageNotFound.vue'),
     },
   ],
-  history: createWebHistory('/nexis-test'),
+  history: createWebHistory(import.meta.env.BASE_URL),
 });
 export default router;
